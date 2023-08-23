@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>login</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <h2>Login Form</h2>
+        <form method="post" action="/login">
+          <label for="email">Email</label>
+          <input type="text" id="Email" placeholder="Enter your Email" />
+
+          <label for="password">Password</label>
+          <input
+            type="text"
+            id="password"
+            placeholder="Enter your password"
+          />
+
+          <button type="submit">Login</button>
+        </form>
+        <div class="switch">
+          Don't have an account?
+          <a href="/register" >Register here</a>
+        </div>
+        <div class="switch">
+         forgot password?
+          <a href="/reset" >Reset here</a>
+        </div>
+      </div>
+      </div>
+    </div>
+  </body>
+</html>

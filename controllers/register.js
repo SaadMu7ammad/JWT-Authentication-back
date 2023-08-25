@@ -1,5 +1,6 @@
 const USER = require('../models/users');
 const mongoose = require('mongoose');
+const nodemailer = require('nodemailer')
 const bcrypt = require('bcryptjs');
 exports.getRegister = (req, res, next) => {
   res.render('register');
@@ -16,6 +17,23 @@ exports.postSignUp = async (req, res, next) => {
       console.log('email is used');
       res.render('register');
     } else {
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user:  req.body.email,
+          pass: 'wcsrgogdxpwyllrh',
+        },
+      });
+      transporter
+      .sendMail({
+        to: req.body.email,
+        from: 'admin@gmail.com',
+        subject: 'signup succedded',
+        html: 'welcome ' + req.body.fullname+" we are happy to join us :)",
+      })
+      .catch((err) => {
+        console.log(err);
+      });
       const user = new USER({
         name: userName,
         email: userEmail,
@@ -26,7 +44,7 @@ exports.postSignUp = async (req, res, next) => {
         .save()
         .then(() => {
           console.log('register succefully done');
-          res.render('login');
+          res.render('login',{errorMessage :undefined});
         })
         .catch((err) => {
           console.log('cant register');

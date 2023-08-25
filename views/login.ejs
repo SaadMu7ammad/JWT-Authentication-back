@@ -9,7 +9,11 @@
   <body>
     <div class="container">
    
-    
+      <% if (errorMessage) { %>
+        <div class="user-message user-message--error active"><%= errorMessage %></div>
+    <% } else { %>
+        <div class="user-message user-message--error hidden"><%= errorMessage %></div>
+    <% } %>
       <div class="card">
         <h2>Login Form</h2>
         <form method="post" action="/login">

@@ -6,14 +6,14 @@ exports.getLogin = (req, res, next) => {
   res.render('login', { errorMessage: null });
 };
 exports.postLogin = (req, res, next) => {
-//   console.log(req.body.email);
-//   console.log(req.body.password);
+  console.log(req.body.email);
+  console.log(req.body.password);
   let errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    res.render('login', {
-      errorMessage: 'Invalid credentials',
-    });
+    // res.render('login', {
+    //   errorMessage: 'Invalid credentials',
+    // });
   }
   errors = [];
   User.findOne({ email: req.body.email })
@@ -21,8 +21,9 @@ exports.postLogin = (req, res, next) => {
       if (result) {
         bcrypt.compare(req.body.password, result.password).then((isEqual) => {
           if (isEqual) {
-            res.redirect('/home');
-            console.log('correct pass');
+            // res.redirect('/home');
+            console.log('correct pass1');
+            res.json(result)
           } else {
             const errors = validationResult(req);
             //   if (!errors.isEmpty()) {

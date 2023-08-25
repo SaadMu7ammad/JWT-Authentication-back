@@ -11,4 +11,5 @@ create a simple login/register website
 - ~~can reset the password via email~~
 - ~~weclome msg via email after registering~~
 - jwt auth
-- each user add and edit and delete his own products
+- each user add and edit and delete his own products with image link
+- add img uploader

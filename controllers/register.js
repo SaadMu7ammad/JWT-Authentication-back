@@ -11,20 +11,26 @@ exports.postSignUp = async (req, res, next) => {
   const userPass = req.body.password;
 
   const hashedPass = await bcrypt.hash(userPass, 12);
+  USER.findOne({ email: req.body.email }).then((result) => {
+    if (result) {
+      console.log('email is used');
+      res.render('register');
+    } else {
+      const user = new USER({
+        name: userName,
+        email: userEmail,
+        password: hashedPass,
+      });
 
-  const user = new USER({
-    name: userName,
-    email: userEmail,
-    password: hashedPass,
+      user
+        .save()
+        .then(() => {
+          console.log('register succefully done');
+          res.render('login');
+        })
+        .catch((err) => {
+          console.log('cant register');
+        });
+    }
   });
-
-  user
-    .save()
-    .then(() => {
-      console.log('register succefully done');
-      res.render('login');
-    })
-    .catch((err) => {
-      console.log('cant register');
-    });
 };

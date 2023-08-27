@@ -49,3 +49,22 @@ exports.deleteTask = (req, res, next) => {
     }
   });
 };
+
+exports.editTask = (req, res, next) => {
+  // console.log(req.user.task);
+  console.log('look here');
+  console.log(req.body.name);
+  console.log(req.body.Oldname);
+  USERS.findOne({ _id: req.user._id }).then((result) => {
+    console.log(result.task);
+    const taskIndex = result.task.findIndex(
+      (item) => item.name === req.body.Oldname
+    );
+    if (taskIndex !== -1) {
+      result.task[taskIndex] = {... result.task[taskIndex],name:req.body.name};//newName
+      result.save();
+      res.json('edited');
+    
+    }
+  });
+};

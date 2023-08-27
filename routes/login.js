@@ -22,5 +22,6 @@ router.post(
 router.get('/home', authToken, homeController.getHome);
 router.post('/add', authToken, homeController.postTask);
 router.post('/delete',authToken,homeController.deleteTask);
+router.post('/edit',authToken,homeController.editTask);
 
 module.exports = router;

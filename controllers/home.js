@@ -1,4 +1,5 @@
 const USERS = require('../models/users');
+const { server } = require('../server'); // Adjust the path to your server file
 
 exports.getHome = (req, res, next) => {
   // res.render('home');
@@ -22,11 +23,16 @@ exports.postTask = (req, res, next) => {
       };
       result.task.push(task);
       result.save().then(() => {
+        const io = require('socket.io')(server);
+
+        io.emit('newTask', task);
+        console.log('hhhere=\n');
+        console.log(task);
         res.json({
           status: true,
-          name: req.body.name,
-          userName: result.name,
-          idUser: result._id,
+          name: task.name,
+          userName: task.userName,
+          idUser: task.id,
         });
       });
     })
@@ -34,6 +40,7 @@ exports.postTask = (req, res, next) => {
       console.log(err);
     });
 };
+
 exports.deleteTask = (req, res, next) => {
   // console.log(req.user.task);
   console.log('object');
@@ -51,7 +58,7 @@ exports.deleteTask = (req, res, next) => {
       }
     });
   } else {
-    res.json("you are not authrized to delete other tasks")
+    res.json('you are not authrized to delete other tasks');
   }
 };
 
@@ -61,7 +68,6 @@ exports.editTask = (req, res, next) => {
   console.log(req.body.name);
   console.log(req.body.Oldname);
   if (req.user._id === req.body.USER_ID) {
-
     USERS.findOne({ _id: req.user._id }).then((result) => {
       console.log(result.task);
       const taskIndex = result.task.findIndex(
@@ -77,8 +83,7 @@ exports.editTask = (req, res, next) => {
       }
     });
   } else {
-    res.json("you are not authrized to edit other tasks")
-
+    res.json('you are not authrized to edit other tasks');
   }
 };
 exports.getAllTasks = (req, res, next) => {

@@ -15,5 +15,8 @@ const userSchema = new schema({
     type: String,
     required: true,
   },
+  task:[ {
+    type: Object
+  }]
 });
 module.exports = mongoose.model('users', userSchema);

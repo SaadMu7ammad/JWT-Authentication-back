@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs');
 exports.getRegister = (req, res, next) => {
-  res.render('register');
+  // res.render('register');
 };
 
 exports.postSignUp = async (req, res, next) => {
@@ -18,8 +18,7 @@ exports.postSignUp = async (req, res, next) => {
     if (result) {
       console.log('email is used');
       // res.render('register');
-      res.json('email is used');
-      
+      res.json(false);
     } else {
       const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -42,17 +41,18 @@ exports.postSignUp = async (req, res, next) => {
         name: userName,
         email: userEmail,
         password: hashedPass,
+        tasks:[]
       });
 
       user
         .save()
         .then(() => {
           console.log('register succefully done');
-          res.json('registerd success');
+          res.json(true);
         })
         .catch((err) => {
-          res.json('cant register');
           console.log('cant register');
+          res.json(false);
         });
     }
   });

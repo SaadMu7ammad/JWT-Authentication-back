@@ -11,7 +11,8 @@ create a simple login/register website
 - ~~can reset the password via email~~
 - ~~weclome msg via email after registering~~
 - ~~register/login/reset with react~~
-- jwt auth
-- each user add and edit and delete his own products with image link
-- add img uploader
+- ~~jwt auth~~
+- ~~each user add and edit and delete his own products~~
+- use redux to stop reloading after deleting or updating
 - live updating
+- add img uploader

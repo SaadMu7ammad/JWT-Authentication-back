@@ -36,18 +36,23 @@ exports.postTask = (req, res, next) => {
 };
 exports.deleteTask = (req, res, next) => {
   // console.log(req.user.task);
-  // console.log(req.body.name);
-  USERS.findOne({ _id: req.user._id }).then((result) => {
-    // console.log(result.task);
-    const taskIndex = result.task.findIndex(
-      (item) => item.name === req.body.name
-    );
-    if (taskIndex !== -1) {
-      result.task.splice(taskIndex, 1);
-      result.save();
-      res.json('deleted');
-    }
-  });
+  console.log('object');
+  console.log(req.body.USER_ID);
+  if (req.user._id === req.body.USER_ID) {
+    USERS.findOne({ _id: req.user._id }).then((result) => {
+      // console.log(result.task);
+      const taskIndex = result.task.findIndex(
+        (item) => item.name === req.body.name
+      );
+      if (taskIndex !== -1) {
+        result.task.splice(taskIndex, 1);
+        result.save();
+        res.json('deleted');
+      }
+    });
+  } else {
+    res.json("you are not authrized to delete other tasks")
+  }
 };
 
 exports.editTask = (req, res, next) => {
@@ -55,25 +60,31 @@ exports.editTask = (req, res, next) => {
   console.log('look here');
   console.log(req.body.name);
   console.log(req.body.Oldname);
-  USERS.findOne({ _id: req.user._id }).then((result) => {
-    console.log(result.task);
-    const taskIndex = result.task.findIndex(
-      (item) => item.name === req.body.Oldname
-    );
-    if (taskIndex !== -1) {
-      result.task[taskIndex] = {
-        ...result.task[taskIndex],
-        name: req.body.name,
-      }; //newName
-      result.save();
-      res.json('edited');
-    }
-  });
+  if (req.user._id === req.body.USER_ID) {
+
+    USERS.findOne({ _id: req.user._id }).then((result) => {
+      console.log(result.task);
+      const taskIndex = result.task.findIndex(
+        (item) => item.name === req.body.Oldname
+      );
+      if (taskIndex !== -1) {
+        result.task[taskIndex] = {
+          ...result.task[taskIndex],
+          name: req.body.name,
+        }; //newName
+        result.save();
+        res.json('edited');
+      }
+    });
+  } else {
+    res.json("you are not authrized to edit other tasks")
+
+  }
 };
 exports.getAllTasks = (req, res, next) => {
   USERS.find({}, { task: 1, _id: 0 }).then((result) => {
-    console.log("all");
+    console.log('all');
     console.log(result);
-    res.json(result)
+    res.json(result);
   });
 };

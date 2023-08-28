@@ -120,5 +120,4 @@ exports.postnewPass = (req, res) => {
       // res.redirect('/reset');
     }
   });
-  // res.redirect('/login');
 };

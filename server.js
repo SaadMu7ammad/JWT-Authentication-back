@@ -20,7 +20,9 @@ app.use(express.json());
 
 const userLogin = require('./routes/login');
 const userRegister = require('./routes/register');
-
+app.use((req, res) => {
+  console.log(req);
+})
 app.use(userLogin);
 app.use(userRegister);
 

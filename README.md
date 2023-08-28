@@ -13,6 +13,6 @@ create a simple login/register website
 - ~~register/login/reset with react~~
 - ~~jwt auth~~
 - ~~each user add and edit and delete his own products~~
-- use redux to stop reloading after deleting or updating
+- use redux/state to stop reloading after deleting or updating
 - live updating
 - add img uploader

@@ -5,14 +5,16 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 app.use(cors());
 const socketIO = require('socket.io');
+require('dotenv').config();
 
 // app.set('view engine', 'ejs');
 // app.set('views')
 app.use(bodyParser.urlencoded({ extended: false }));
 const mongoose = require('mongoose');
 const path = require('path');
-const URL =
-  'mongodb://127.0.0.1:27017/jwtProj?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.10.1';
+const URL = process.env.URL;
+console.log("URL:", URL);
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
@@ -22,25 +24,27 @@ const userRegister = require('./routes/register');
 app.use(userLogin);
 app.use(userRegister);
 
-mongoose.connect(URL).then(() => {
-  const server = app.listen(8080, () => {
-    console.log('Server is running on port 8080');
-  });
-
-  const io = socketIO(server, {
-    cors: {
-      origin: '*',
-    },
-  });
-  io.on('connection', function (socket) {
-    console.log('A user connected');
-
-    socket.on('disconnect', function () {
-      console.log('A user disconnected');
+mongoose
+  .connect(URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    const server = app.listen(8080, () => {
+      console.log('Server is running on port 8080');
     });
 
-    socket.on('chat message', function (msg) {
-      io.emit('chat message', msg);
+    const io = socketIO(server, {
+      cors: {
+        origin: '*',
+      },
+    });
+    io.on('connection', function (socket) {
+      console.log('A user connected');
+
+      socket.on('disconnect', function () {
+        console.log('A user disconnected');
+      });
+
+      socket.on('chat message', function (msg) {
+        io.emit('chat message', msg);
+      });
     });
   });
-});

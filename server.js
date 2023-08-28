@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const mongoose = require('mongoose');
 const path = require('path');
 const URL = process.env.URL;
-console.log("URL:", URL);
+console.log('URL:', URL);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
@@ -22,7 +22,7 @@ const userLogin = require('./routes/login');
 const userRegister = require('./routes/register');
 app.use((req, res) => {
   console.log(req);
-})
+});
 app.use(userLogin);
 app.use(userRegister);
 

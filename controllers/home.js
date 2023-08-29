@@ -53,12 +53,22 @@ exports.deleteTask = (req, res, next) => {
       );
       if (taskIndex !== -1) {
         result.task.splice(taskIndex, 1);
-        result.save();
-        res.json('deleted');
+        result.save().then(() => {
+          USERS.find({}, { task: 1, _id: 0 }).then((result) => {
+            //return all data again
+            console.log('saad');
+            res.json(result);
+          });
+        });
       }
     });
   } else {
-    res.json('you are not authrized to delete other tasks');
+    USERS.find({}, { task: 1, _id: 0 }).then((result) => {
+      //return all data again
+      console.log('saad');
+      res.json(result);
+    });
+    // res.json('you are not authrized to delete other tasks');
   }
 };
 
@@ -78,12 +88,24 @@ exports.editTask = (req, res, next) => {
           ...result.task[taskIndex],
           name: req.body.name,
         }; //newName
-        result.save();
-        res.json('edited');
+        result.save().then(() => {
+          USERS.find({}, { task: 1, _id: 0 }).then((result) => {
+            //return all data again
+            console.log('saad');
+            res.json(result);
+          });
+        });
+        // res.json('edited');
       }
     });
   } else {
-    res.json('you are not authrized to edit other tasks');
+    // res.json('you are not authrized to edit other tasks');
+    console.log('you are not authrized to edit other tasks');
+    USERS.find({}, { task: 1, _id: 0 }).then((result) => {
+      //return all data again
+      console.log('saad');
+      res.json(result);
+    });
   }
 };
 exports.getAllTasks = (req, res, next) => {

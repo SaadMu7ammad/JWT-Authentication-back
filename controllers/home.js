@@ -95,13 +95,13 @@ exports.deleteTaskOne = (req, res, next) => {
         result.save().then((result) => {
           //return all data again
           // res.json(result);
-          USERS.findOne({ _id: req.user._id }, { task: 1, _id: 0 }).then(
+          USERS.findOne({ _id: req.user._id }).then(
             (result) => {
               console.log('saassssssd');
-            console.log(result);
+            console.log(result.task);
 
               //return all data again
-              res.json(result);
+              res.json(result.task);
             }
           );
         });
@@ -161,6 +161,47 @@ exports.editTaskAll = (req, res, next) => {
       res.json(result);
     });
   }
+};
+exports.editTaskOne = (req, res, next) => {
+  // console.log(req.user.task);
+  console.log('look here');
+  console.log(req.body.name);
+  console.log(req.body.Oldname);
+  if (req.user._id === req.body.USER_ID&&req.body.name) {
+    USERS.findOne({ _id: req.user._id }).then((result) => {
+      console.log(result.task);
+      const taskIndex = result.task.findIndex(
+        (item) => item.name === req.body.Oldname
+      );
+      if (taskIndex !== -1) {
+        result.task[taskIndex] = {
+          ...result.task[taskIndex],
+          name: req.body.name,
+        }; //newName
+        result.save().then(() => {
+          
+          USERS.findOne({ _id: req.user._id }).then((result) => {
+            console.log('homeeee');
+            res.json(result.task);
+          });
+        });
+        // res.json('edited');
+      } else {
+        USERS.findOne({ _id: req.user._id }).then((result) => {
+          console.log('homeeee');
+          res.json(result.task);
+        });
+      }
+    });
+  } else {
+    // res.json('you are not authrized to edit other tasks');
+    console.log('you are not authrized to edit other tasks');
+    USERS.findOne({ _id: req.user._id }).then((result) => {
+      console.log('homeeee');
+      res.json(result.task);
+    });
+  }
+ 
 };
 exports.getAllTasks = (req, res, next) => {
   USERS.find({}, { task: 1, _id: 0 }).then((result) => {

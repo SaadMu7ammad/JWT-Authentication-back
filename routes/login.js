@@ -5,7 +5,7 @@ const homeController = require('../controllers/home');
 const { body } = require('express-validator');
 const { authToken } = require('../middleware/auth');
 router.get('/', loginController.getLogin);
-router.get('/login', loginController.getLogin);
+router.get('/login/', loginController.getLogin);
 router.get('/reset', loginController.getReset);
 router.post('/reset', loginController.postReset);
 router.get('/reset/:id',authToken, loginController.getnewPass);
@@ -23,6 +23,7 @@ router.get('/home', authToken, homeController.getHome);
 router.post('/add', authToken, homeController.postTask);
 router.post('/delete',authToken,homeController.deleteTaskAll);
 router.post('/deleteOne',authToken,homeController.deleteTaskOne);
+router.post('/editOne',authToken,homeController.editTaskOne);
 router.post('/edit',authToken,homeController.editTaskAll);
 router.get('/all',authToken,homeController.getAllTasks);
 

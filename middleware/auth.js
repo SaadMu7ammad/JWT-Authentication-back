@@ -7,8 +7,8 @@ function authToken(req, res, next) {
     console.log('token= ' + token);
     // console.log(token);
     if (token == process.env.ACCESS_TOKEN_SECRET) console.log('true');
-      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-        console.log(err);
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+      console.log(err);
       if (err) return res.status(403).json('not a valid token');
 
       req.user = user;

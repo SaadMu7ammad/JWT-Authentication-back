@@ -8,14 +8,10 @@ exports.getLogin = (req, res, next) => {
   // res.render('login', { errorMessage: null });
 };
 exports.postLogin = (req, res, next) => {
-  console.log(req.body.email);
-  console.log(req.body.password);
   let errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    // res.render('login', {
-    //   errorMessage: 'Invalid credentials',
-    // });
+   console.log("Invalid credentials");
   }
   errors = [];
   User.findOne({ email: req.body.email })
@@ -24,44 +20,30 @@ exports.postLogin = (req, res, next) => {
         bcrypt.compare(req.body.password, result.password).then((isEqual) => {
           if (isEqual) {
             const payload = result.toObject();
-            // console.log(payload);
-            // console.log(typeof(payload));
-
             const accessToken = jwt.sign(payload,  process.env.ACCESS_TOKEN_SECRET);
             // res.redirect('/home');
-            console.log('correct pass1');
             const userAuthed = { ...result, accessToken: accessToken }
-            console.log(userAuthed);
             res.json({
               status: true,
               result: {...userAuthed,accessToken: accessToken},
             });
           } else {
             const errors = validationResult(req);
-            //   if (!errors.isEmpty()) {
-            //     res.render('login', {
-            //       errorMessage: 'Invalid pass',
-            //     });
-            //   } else {
-            // res.render('login', { errorMessage: 'not correct pass' });
             res.json({
               status: false,
               result: [],
             });
             console.log('not correct pass');
-            //   }
           }
         });
       } else {
         // res.render('login', { errorMessage: 'email not founded' });
         res.json(false);
-
         console.log('email not founded');
       }
     })
     .catch((err) => {
       res.json(false);
-
       console.log(err);
     });
 };
@@ -70,9 +52,7 @@ exports.getReset = (req, res) => {
 };
 exports.postReset = (req, res) => {
   const email = req.body.email;
-  console.log(email);
   User.findOne({ email: req.body.email }).then((result) => {
-    console.log(email);
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -94,7 +74,7 @@ exports.postReset = (req, res) => {
   });
 };
 exports.getnewPass = (req, res) => {
-  console.log(req.params.id);
+  // console.log(req.params.id);
   // res.render('newPass', {
   //   userId: req.params.id,
   // });

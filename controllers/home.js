@@ -25,12 +25,10 @@ exports.postTask = (req, res, next) => {
       });
 
       result.save().then(() => {
-        
         USERS.findOne({ _id: req.user._id }).then((result) => {
           res.json(result.task);
         });
-
-      })
+      });
       // res.json({
       //   status: true,
       //   name: task.name,
@@ -53,6 +51,10 @@ exports.deleteTaskAll = (req, res, next) => {
         result.task.splice(taskIndex, 1);
         result.save().then(() => {
           USERS.find({}, { task: 1, _id: 0 }).then((result) => {
+            io.getIO().emit('newTask', {
+              action: 'delete',
+              task: result,
+            });
             res.json(result);
           });
         });
@@ -96,7 +98,7 @@ exports.deleteTaskOne = (req, res, next) => {
 };
 
 exports.editTaskAll = (req, res, next) => {
-  if (req.user._id === req.body.USER_ID) {
+  if (req.user._id === req.body.USER_ID && req.body.name) {
     USERS.findOne({ _id: req.user._id }).then((result) => {
       const taskIndex = result.task.findIndex(
         (item) => item.name === req.body.Oldname
@@ -108,6 +110,10 @@ exports.editTaskAll = (req, res, next) => {
         }; //newName
         result.save().then(() => {
           USERS.find({}, { task: 1, _id: 0 }).then((result) => {
+            io.getIO().emit('newTask', {
+              action: 'edit',
+              task: result,
+            });
             res.json(result);
           });
         });

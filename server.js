@@ -6,19 +6,15 @@ const bodyParser = require('body-parser');
 const { Socket } = require('socket.io');
 require('dotenv').config();
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader(
-      'Access-Control-Allow-Methods',
-      'GET, POST, PUT, PATCH, DELETE'
-  );
-  res.setHeader(
-      'Access-Control-Allow-Headers',
-      'Content-Type, Authorization'
-  );
-  next();
-  
-});
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader(
+//     'Access-Control-Allow-Methods',
+//     'GET, POST, PUT, PATCH, DELETE'
+//   );
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//   next();
+// });
 
 app.use(cors());
 // app.set('view engine', 'ejs');
@@ -48,7 +44,7 @@ mongoose
     const io = require('./socket.js').init(server, {
       cors: {
         origin: 'http://localhost:3000',
-        methods: ['GET', 'POST','PUT', 'PATCH', 'DELETE'],
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
       },
     });
     io.on('connection', (socket) => {

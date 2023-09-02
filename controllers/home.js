@@ -29,12 +29,6 @@ exports.postTask = (req, res, next) => {
           res.json(result.task);
         });
       });
-      // res.json({
-      //   status: true,
-      //   name: task.name,
-      //   userName: task.userName,
-      //   idUser: task.id,
-      // });
     })
     .catch((err) => {
       console.log(err);

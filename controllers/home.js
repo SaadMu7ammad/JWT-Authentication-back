@@ -78,6 +78,10 @@ exports.deleteTaskOne = (req, res, next) => {
         result.task.splice(taskIndex, 1);
         result.save().then((result) => {
           USERS.findOne({ _id: req.user._id }).then((result) => {
+            io.getIO().emit('newTask', {
+              action: 'delete',
+              task: result.task,
+            });
             res.json(result.task);
           });
         });
@@ -140,6 +144,10 @@ exports.editTaskOne = (req, res, next) => {
         }; //newName
         result.save().then(() => {
           USERS.findOne({ _id: req.user._id }).then((result) => {
+            io.getIO().emit('newTask', {
+              action: 'edit',
+              task: result.task,
+            });
             res.json(result.task);
           });
         });

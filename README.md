@@ -31,3 +31,25 @@ challenges been done through the project
 - each user add and edit and delete his own products ~~done~~
 - use redux/state to stop reloading after deleting or updating ~~done~~
 - live updating ~~done~~
+
+login page
+
+![image](https://github.com/SaadMu7ammad/JWT-Authentication-back/assets/74321306/03fbd610-eeec-4b21-979a-d1a9f9c2ec34)
+
+register page
+
+![image](https://github.com/SaadMu7ammad/JWT-Authentication-back/assets/74321306/85162ab8-e61f-42d9-ace3-c8f659ec8708)
+
+reset and add new password
+
+![image](https://github.com/SaadMu7ammad/JWT-Authentication-back/assets/74321306/288ca8ab-3a25-4ace-a734-d83a506d046b)
+
+![image](https://github.com/SaadMu7ammad/JWT-Authentication-back/assets/74321306/cb2a8e0c-0ae1-4248-9cc9-d01f5a737f3a)
+
+home page
+
+![image](https://github.com/SaadMu7ammad/JWT-Authentication-back/assets/74321306/5dd240e1-8efa-4463-81e9-8efbc90ff56d)
+
+all page
+
+![image](https://github.com/SaadMu7ammad/JWT-Authentication-back/assets/74321306/716e6ec9-fdf9-4b49-9f07-14dcca9b4674)

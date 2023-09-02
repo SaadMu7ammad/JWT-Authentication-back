@@ -1,5 +1,7 @@
 const USERS = require('../models/users');
 const { server } = require('../server');
+const { emit } = require('process');
+const io = require('../socket');
 
 exports.getHome = (req, res, next) => {
   // res.render('home');
@@ -17,20 +19,24 @@ exports.postTask = (req, res, next) => {
         userName: result.name,
       };
       result.task.push(task);
-      result.save().then(() => {
-        // const io = require('socket.io')(server);
+      io.getIO().emit('newTask', {
+        action: 'add',
+        task: task,
+      });
 
-        // io.emit('newTask', task);
-        // res.json({
-        //   status: true,
-        //   name: task.name,
-        //   userName: task.userName,
-        //   idUser: task.id,
-        // });
+      result.save().then(() => {
+        
         USERS.findOne({ _id: req.user._id }).then((result) => {
           res.json(result.task);
         });
-      });
+
+      })
+      // res.json({
+      //   status: true,
+      //   name: task.name,
+      //   userName: task.userName,
+      //   idUser: task.id,
+      // });
     })
     .catch((err) => {
       console.log(err);

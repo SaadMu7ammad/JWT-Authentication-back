@@ -3,10 +3,24 @@ const app = express();
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-app.use(cors());
-const socketIO = require('socket.io');
+const { Socket } = require('socket.io');
 require('dotenv').config();
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+      'Access-Control-Allow-Methods',
+      'GET, POST, PUT, PATCH, DELETE'
+  );
+  res.setHeader(
+      'Access-Control-Allow-Headers',
+      'Content-Type, Authorization'
+  );
+  next();
+  
+});
+
+app.use(cors());
 // app.set('view engine', 'ejs');
 // app.set('views')
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -27,25 +41,20 @@ app.use(userRegister);
 
 mongoose
   .connect(URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
+  .then((result) => {
     const server = app.listen(8080, () => {
-      console.log('Server is running on port 8080');
+      console.log(`Server is running`);
     });
-
-    const io = socketIO(server, {
+    const io = require('./socket.js').init(server, {
       cors: {
-        origin: '*',
+        origin: 'http://localhost:3000',
+        methods: ['GET', 'POST','PUT', 'PATCH', 'DELETE'],
       },
     });
-    io.on('connection', function (socket) {
-      console.log('A user connected');
-
-      socket.on('disconnect', function () {
-        console.log('A user disconnected');
-      });
-
-      socket.on('chat message', function (msg) {
-        io.emit('chat message', msg);
-      });
+    io.on('connection', (socket) => {
+      console.log('Client Connected!');
     });
+  })
+  .catch((err) => {
+    console.log(err);
   });

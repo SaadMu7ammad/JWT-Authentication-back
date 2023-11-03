@@ -1,7 +1,7 @@
 # JWT-Authentication
 
-## an application on jwt from scratch to apply what i've learned 
-
+## an application on jwt from scratch to apply what i've learned with mern stack
+## [To The Front Repo] (https://github.com/SaadMu7ammad/JWT-Authentication-front)
 create a simple login/register website that used to store your tasks 
 
 first you must register with email after that will recieve a hello email and emails are unique
